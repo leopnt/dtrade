@@ -1,11 +1,18 @@
-CREATE TABLE "alerts" (
+CREATE TABLE "users" (
 	"id"	INTEGER NOT NULL,
+	"username"	TEXT NOT NULL UNIQUE,
+	"password_hash"	TEXT NOT NULL,
+	"email"	TEXT NOT NULL UNIQUE,
+	PRIMARY KEY("id")
+);
+
+CREATE TABLE "alerts" (
+	"symbol_name"	TEXT NOT NULL,
 	"user_id"	INTEGER NOT NULL,
 	"notification_id"	INTEGER,
-	"symbol_name"	TEXT NOT NULL,
 	FOREIGN KEY("notification_id") REFERENCES "notifications"("id") ON DELETE CASCADE,
-	FOREIGN KEY("user_id") REFERENCES "users"("id"),
-	PRIMARY KEY("id")
+	FOREIGN KEY("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
+	PRIMARY KEY("symbol_name","user_id")
 );
 
 CREATE TABLE "notifications" (
@@ -17,13 +24,5 @@ CREATE TABLE "notifications" (
 	"smtp_url"	TEXT,
 	"email"	TEXT,
 	"ntfy_topic"	TEXT,
-	PRIMARY KEY("id")
-);
-
-CREATE TABLE "users" (
-	"id"	INTEGER NOT NULL,
-	"username"	TEXT NOT NULL UNIQUE,
-	"password_hash"	TEXT NOT NULL,
-	"email"	TEXT NOT NULL UNIQUE,
 	PRIMARY KEY("id")
 );

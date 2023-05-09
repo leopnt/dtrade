@@ -9,12 +9,6 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 DATABASE = 'users.db'
 
 
-def sqlite_error_template(e: sqlite3.Error) -> dict:
-    return {"code": e.sqlite_errorcode,
-            "name": e.sqlite_errorname,
-            "msg": str(e)}
-
-
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
@@ -24,6 +18,7 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        db.execute("PRAGMA foreign_keys = ON")
 
     db.row_factory = make_dicts
 
@@ -60,15 +55,18 @@ def api_get_users():
 def api_add_user():
     r = request.json
 
-    if r is None:
-        return "cannot insert user {}".format(r), 500
+    if not r:
+        return "cannot insert user: empty json body", 400
+
+    if not r["username"] or not r["password_hash"] or not r["email"]:
+        return "cannot insert user: incomplete json body: {}".format(r), 400
 
     try:
         data = query_db("INSERT INTO users (username, password_hash, email)\
                         VALUES (?,?,?)",
                         (r["username"], r["password_hash"], r["email"]))
     except sqlite3.Error as e:
-        return sqlite_error_template(e), 500
+        return str(e), 500
 
     return jsonify(data)
 
@@ -77,18 +75,66 @@ def api_add_user():
 def api_get_user(user_id):
     user = query_db('SELECT * FROM users WHERE id=?', (user_id), one=True)
 
-    if user is None:
-        return "no such user", 404
-
     return jsonify(user)
 
 
 @app.route('/api/v1/users/<user_id>',  methods=['DELETE'])
 def api_delete_user(user_id):
     try:
-        data = query_db("DELETE from users WHERE id=?", (user_id))
+        data = query_db("DELETE FROM users WHERE id=?", (user_id))
     except sqlite3.Error as e:
-        return sqlite_error_template(e), 500
+        return str(e), 500
+
+    return jsonify(data)
+
+
+@app.route('/api/v1/alerts',  methods=['GET'])
+def api_get_user_alerts():
+    user_id = request.args.get("user_id")
+
+    try:
+        if not user_id:
+            data = query_db("SELECT * FROM alerts WHERE user_id=?", (user_id))
+        else:
+            data = query_db("SELECT * FROM alerts")
+    except sqlite3.Error as e:
+        return str(e), 500
+
+    return jsonify(data)
+
+
+@app.route('/api/v1/alerts',  methods=['POST'])
+def api_add_alert():
+    user_id = request.args.get("user_id")
+    r = request.json
+
+    if r is None:
+        return "cannot add alert: empty json body", 400
+
+    if not "symbol_name" in r.keys():
+        return "cannot add alert: empty symbol_name", 400
+
+    try:
+        data = query_db("INSERT INTO alerts\
+                        (user_id, notification_id, symbol_name)\
+                        VALUES (?,?,?)",
+                        (user_id, None, r["symbol_name"]))
+    except sqlite3.Error as e:
+        return str(e), 500
+
+    return jsonify(data)
+
+
+@app.route('/api/v1/alerts',  methods=['DELETE'])
+def api_delete_alert():
+    symbol_name = request.args.get("symbol_name")
+    user_id = request.args.get("user_id")
+
+    try:
+        data = query_db("DELETE FROM alerts WHERE user_id=? AND symbol_name=?",
+                        (user_id, symbol_name))
+    except sqlite3.Error as e:
+        return str(e), 500
 
     return jsonify(data)
 

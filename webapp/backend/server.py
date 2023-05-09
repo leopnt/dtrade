@@ -93,7 +93,7 @@ def api_get_user_alerts():
     user_id = request.args.get("user_id")
 
     try:
-        if not user_id:
+        if user_id:
             data = query_db("SELECT * FROM alerts WHERE user_id=?", (user_id))
         else:
             data = query_db("SELECT * FROM alerts")

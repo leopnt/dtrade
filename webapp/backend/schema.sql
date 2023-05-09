@@ -10,7 +10,7 @@ CREATE TABLE "alerts" (
 	"symbol_name"	TEXT NOT NULL,
 	"user_id"	INTEGER NOT NULL,
 	"notification_id"	INTEGER,
-	FOREIGN KEY("notification_id") REFERENCES "notifications"("id") ON DELETE CASCADE,
+	FOREIGN KEY("notification_id") REFERENCES "notifications"("id") ON DELETE SET NULL,
 	FOREIGN KEY("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
 	PRIMARY KEY("symbol_name","user_id")
 );
@@ -26,3 +26,10 @@ CREATE TABLE "notifications" (
 	"ntfy_topic"	TEXT,
 	PRIMARY KEY("id")
 );
+
+CREATE TRIGGER trigger_delete_notification_after_delete_alert
+AFTER DELETE
+ON alerts
+BEGIN
+    DELETE FROM notifications WHERE id=OLD.notification_id;
+END;

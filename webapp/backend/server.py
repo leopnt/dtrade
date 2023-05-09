@@ -111,7 +111,7 @@ def api_add_alert():
     if r is None:
         return "cannot add alert: empty json body", 400
 
-    if not "symbol_name" in r.keys():
+    if "symbol_name" not in r.keys():
         return "cannot add alert: empty symbol_name", 400
 
     try:
@@ -133,6 +133,70 @@ def api_delete_alert():
     try:
         data = query_db("DELETE FROM alerts WHERE user_id=? AND symbol_name=?",
                         (user_id, symbol_name))
+    except sqlite3.Error as e:
+        return str(e), 500
+
+    return jsonify(data)
+
+
+@app.route('/api/v1/notifications',  methods=['GET'])
+def api_get_notifications():
+    try:
+        data = query_db("SELECT * FROM notifications")
+    except sqlite3.Error as e:
+        return str(e), 500
+
+    return jsonify(data)
+
+
+@app.route('/api/v1/users/<notification_id>', methods=['GET'])
+def api_get_notification(notification_id):
+    user = query_db('SELECT * FROM notifications WHERE id=?',
+                    (notification_id), one=True)
+
+    return jsonify(user)
+
+
+@app.route('/api/v1/notifications',  methods=['POST'])
+def api_add_notification():
+    user_id = request.args.get("user_id")
+    symbol_name = request.args.get("symbol_name")
+    r = request.json
+
+    if r is None:
+        return "cannot add alert: empty json body", 400
+
+    for required_body_key in ["title", "content", "type", "discord_webhook_url", "smtp_url", "email", "ntfy_topic"]:
+        if required_body_key not in r.keys():
+            return "cannot add notification: empty {}".format(required_body_key), 400
+
+    try:
+        alerts = query_db("SELECT * FROM alerts WHERE user_id=? AND symbol_name=?", (user_id, symbol_name))
+        if not alerts:
+            return "cannot add notification: alert not found with: {}, {}".format(user_id, symbol_name), 404
+
+        db = get_db()
+        cur = db.execute("INSERT INTO notifications\
+                        (title, content, type, discord_webhook_url, smtp_url, email, ntfy_topic)\
+                        VALUES (?,?,?,?,?,?,?)", (r["title"], r["content"], r["type"], r["discord_webhook_url"],
+                                                r["smtp_url"], r["email"], r["ntfy_topic"]))
+        db.commit()
+        notification_id = cur.lastrowid
+        cur = db.execute("UPDATE alerts\
+                        SET notification_id=?\
+                        WHERE user_id=? AND symbol_name=?", (notification_id, user_id, symbol_name))
+        db.commit()
+        cur.close()
+    except sqlite3.Error as e:
+        return str(e), 500
+
+    return jsonify([])
+
+
+@app.route('/api/v1/notifications/<notification_id>',  methods=['DELETE'])
+def api_delete_notification(notification_id):
+    try:
+        data = query_db("DELETE FROM notifications WHERE id=?", (notification_id))
     except sqlite3.Error as e:
         return str(e), 500
 

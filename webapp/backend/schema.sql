@@ -1,7 +1,7 @@
 CREATE TABLE "alerts" (
 	"id"	INTEGER NOT NULL,
 	"user_id"	INTEGER NOT NULL,
-	"notification_id"	INTEGER NOT NULL,
+	"notification_id"	INTEGER,
 	"symbol_name"	TEXT NOT NULL,
 	FOREIGN KEY("notification_id") REFERENCES "notifications"("id") ON DELETE CASCADE,
 	FOREIGN KEY("user_id") REFERENCES "users"("id"),

@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS users;
-
 CREATE TABLE "alerts" (
 	"id"	INTEGER NOT NULL,
 	"user_id"	INTEGER NOT NULL,

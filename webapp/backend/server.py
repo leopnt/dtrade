@@ -6,7 +6,7 @@ import sqlite3
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-DATABASE = 'users.sqlite3'
+DATABASE = 'users.db'
 
 
 def sqlite_error_template(e: sqlite3.Error) -> dict:

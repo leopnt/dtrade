@@ -9,27 +9,14 @@ CREATE TABLE "users" (
 CREATE TABLE "alerts" (
 	"symbol_name"	TEXT NOT NULL,
 	"user_id"	INTEGER NOT NULL,
-	"notification_id"	INTEGER,
-	FOREIGN KEY("notification_id") REFERENCES "notifications"("id") ON DELETE SET NULL,
+	"title"	TEXT NOT NULL,
+	"content"	TEXT NOT NULL,
+	"type"	TEXT NOT NULL CHECK("type" IN ("email", "discord", "ntfy")),
+	"discord_webhook_url"	TEXT,
+	"smtp_url"	TEXT,
+	"email_addr"	TEXT,
+	"ntfy_topic"	TEXT,
 	FOREIGN KEY("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
 	PRIMARY KEY("symbol_name","user_id")
 );
 
-CREATE TABLE "notifications" (
-	"id"	INTEGER NOT NULL,
-	"title"	TEXT NOT NULL,
-	"content"	TEXT NOT NULL,
-	"type"	TEXT NOT NULL CHECK("type" IN ("email", "discord")),
-	"discord_webhook_url"	TEXT,
-	"smtp_url"	TEXT,
-	"email"	TEXT,
-	"ntfy_topic"	TEXT,
-	PRIMARY KEY("id")
-);
-
-CREATE TRIGGER trigger_delete_notification_after_delete_alert
-AFTER DELETE
-ON alerts
-BEGIN
-    DELETE FROM notifications WHERE id=OLD.notification_id;
-END;

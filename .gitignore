@@ -1,6 +1,5 @@
 # Databases and logs
 *.log
-*.sql
 *.sqlite
 *.db
 *.sqlite3

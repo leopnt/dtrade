@@ -1,2 +1,0 @@
-from technicalanalysislib import myfunctions
-

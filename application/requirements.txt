@@ -6,3 +6,4 @@ numpy==1.21.6
 plotly==5.14.1
 scipy==1.7.3
 nbformat>=4.2.0
+yfinance>=0.2.18

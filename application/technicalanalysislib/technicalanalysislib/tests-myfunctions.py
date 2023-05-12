@@ -1,27 +1,15 @@
-from unittest import TestCase
-from FindAscendingTriangles import AscendingTriangles
-import numpy as np
+from GetTriangleAscendant import TriangleAscendantData
+import datetime
 
 
-class TryTesting(TestCase):
-    def test_always_passes(self):
-        self.assertTrue(True)
-
-    def test_always_fails(self):
-        self.assertTrue(False)
-
-    def test_import_static_csv_data(self):
-        data = AscendingTriangles.import_static_csv_data()
-        self.assertEquals(type(data), np.array())
-        print(data)
-
-    def test_clean_data(self):
-        data = AscendingTriangles.import_static_csv_data()
-        AscendingTriangles.clean_data(data)
-        print(data[20])
-
-    def test_pivot_id(self):
-        data = AscendingTriangles.import_static_csv_data()
-        data["pivot"] = data.apply(
-            lambda x: AscendingTriangles.pivotid(data, x.name, 3, 3), axis=1
-        )
+triangle = TriangleAscendantData("AAPL")
+if triangle.target_price is not None:
+    print("Objectif de prix : ", triangle.target_price)
+    print("Date cible : ", triangle.target_date)
+    today = datetime.today().strftime("%Y-%m-%d")
+    if triangle.is_favorable_day(today):
+        print("Journée favorable pour investir.")
+    else:
+        print("Journée non favorable pour investir.")
+else:
+    print("Pas de formation de triangle ascendant détectée.")

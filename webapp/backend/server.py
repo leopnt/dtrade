@@ -57,14 +57,28 @@ def api_add_user():
     if not r:
         return "cannot insert user: empty json body", 400
 
-    if not r["username"] or not r["password_hash"] or not r["email"]:
+    if (
+        not r["username"]
+        or not r["password_hash"]
+        or not r["email"]
+        or not r["total_invested"]
+        or not r["max_risk_per_trade"]
+        or not r["fee_per_trade"]
+    ):
         return "cannot insert user: incomplete json body: {}".format(r), 400
 
     try:
         data = query_db(
-            "INSERT INTO users (username, password_hash, email)\
+            "INSERT INTO users (username, password_hash, email, total_invested, max_risk_per_trade, fee_per_trade)\
                         VALUES (?,?,?)",
-            (r["username"], r["password_hash"], r["email"]),
+            (
+                r["username"],
+                r["password_hash"],
+                r["email"],
+                r["total_invested"],
+                r["max_risk_per_trade"],
+                r["fee_per_trade"],
+            ),
         )
     except sqlite3.Error as e:
         return str(e), 500

@@ -3,9 +3,6 @@ CREATE TABLE "users" (
 	"username" TEXT NOT NULL UNIQUE,
 	"password_hash" TEXT NOT NULL,
 	"email" TEXT NOT NULL UNIQUE,
-	"total_invested" FLOAT NOT NULL,
-	"max_risk_per_trade" FLOAT NOT NULL,
-	"fee_per_trade" FLOAT NOT NULL,
 	PRIMARY KEY("id")
 );
 

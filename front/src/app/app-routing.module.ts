@@ -16,6 +16,10 @@ const routes: Routes = [
     path: 'auth', loadChildren: () => import('./auth/auth.module')
       .then(m => m.AuthModule)
   },
+  {
+    path: 'register', loadChildren: () => import('./register/register.module')
+      .then(m => m.RegisterModule)
+  },
 
   { path: "**", component: ErrorComponent }
 ];

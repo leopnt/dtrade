@@ -1,3 +1,4 @@
 numpy==1.21.6
 yfinance>=0.2.18
 requests>= 2.30.0
+jsonlib >= 1.6.1

@@ -45,7 +45,7 @@ class RiskManager:
         print("nb_stock :", nb_stock)
 
         potential_gain = (
-            self.news_analysis.get("close_price_predicted") - current_stock_price
+            self.news_analysis.get("close_price_next_predicted") - current_stock_price
         ) * nb_stock
         print("potentiel gain :", potential_gain)
         print("FEE_PER_TRADE*2 :", FEE_PER_TRADE * 2)

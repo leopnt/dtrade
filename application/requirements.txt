@@ -16,3 +16,6 @@ praw == 7.7.0
 # Technical Analysis
 numpy == 1.21.6
 
+# Application risk management
+requests == 2.30.0
+jsonlib == 1.6.1

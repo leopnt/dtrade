@@ -20,16 +20,13 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-- convert notebook to python
-```bash
-jupyter nbconvert --to python training/AAPL.ipynb
-```
-
 - train the model
 ```bash
 cd training
 python AAPL.py
 ```
+
+joblib files are now available in `training/` folder
 
 ## Run
 

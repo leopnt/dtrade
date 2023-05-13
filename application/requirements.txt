@@ -12,8 +12,10 @@ joblib == 1.2.0
 xgboost == 1.7.5
 textblob == 0.17.1
 praw == 7.7.0
-GitPython == 3.1.31
 
 # Technical Analysis
 numpy == 1.21.6
 
+# Application risk management
+requests == 2.30.0
+jsonlib == 1.6.1

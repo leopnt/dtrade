@@ -4,13 +4,9 @@ import os
 import praw
 import yfinance
 import joblib
-import git
 from textblob import TextBlob
 from datetime import datetime
 
-repo = git.Repo('./.git')
-latest_commit = repo.heads["main"].commit
-latest_commit_hash = latest_commit.hexsha
 
 class News:
     def __init__(self, text: str = ""):
@@ -54,12 +50,17 @@ class NewsCache:
 
 class PricePredictor():
     def __init__(self) -> None:
-        self.model = joblib.load("training/stock_prediction.joblib")
-        self.x_scaler = joblib.load("training/stock_prediction_x_scaler.joblib")
-        self.y_scaler = joblib.load("training/stock_prediction_y_scaler.joblib")
-    
+        PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__)) + "/"
+
+        self.model = joblib.load(
+                PROJECT_ROOT + "../training/stock_prediction.joblib")
+        self.x_scaler = joblib.load(
+                PROJECT_ROOT + "../training/stock_prediction_x_scaler.joblib")
+        self.y_scaler = joblib.load(
+                PROJECT_ROOT + "../training/stock_prediction_y_scaler.joblib")
+
     def predict(
-        self, stock_ticker: yfinance.Ticker, news_cache: NewsCache) -> float:
+        self, stock_ticker: yfinance.Ticker, news_cache: NewsCache) -> dict:
 
         close_price = stock_ticker.info["previousClose"]
 
@@ -73,38 +74,38 @@ class PricePredictor():
         predicted_price = self.y_scaler.inverse_transform(
             predicted.reshape(-1, 1))
         
-        # log to csv file
-        with open("news_predictor_log.csv", "a") as myfile:
-            csv_row = "{},{},{:.6f},{},{:.2f},{:.2f}\n".format(
-            latest_commit_hash,
-            datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%Sz"),
-            news_cache.ts_polarity_mean(),
-            news_cache.volume(),
-            close_price,
-            predicted_price[0][0])
+        return {
+                'news_sentiment_polarity': news_cache.ts_polarity_mean(),
+                'news_volume': news_cache.volume(),
+                'close_price_previous': close_price,
+                'close_price_next_predicted': float(predicted_price[0][0]),
+                }
 
-            myfile.write(csv_row)
+class NewsSentimentPredict:
+    def __init__(self, symbol: str) -> None:
+        news_cache = NewsCache()
+        aapl_stock = yfinance.Ticker("AAPL")
+        price_predictor = PricePredictor()
+        reddit = praw.Reddit(
+            client_id=os.environ.get("CLIENT_ID"),
+            client_secret=os.environ.get("CLIENT_SECRET"),
+            user_agent=os.environ.get("USER_AGENT"))
+        subreddit = reddit.subreddit('apple')
 
-        return predicted_price[0][0]
+        for submission in subreddit.top(time_filter="day"):
+            title = submission.title
+            news_cache.push(News(title))
+
+        self.prediction = price_predictor.predict(aapl_stock, news_cache)
+        news_cache.clear()
+
+    def to_dict(self):
+        return self.prediction
 
 
 def main():
-    news_cache = NewsCache()
-    aapl_stock = yfinance.Ticker("AAPL")
-    price_predictor = PricePredictor()
-    reddit = praw.Reddit(
-        client_id=os.environ.get("CLIENT_ID"),
-        client_secret=os.environ.get("CLIENT_SECRET"),
-        user_agent=os.environ.get("USER_AGENT"))
-    subreddit = reddit.subreddit('apple')
-
-    for submission in subreddit.top(time_filter="day"):
-        title = submission.title
-        news_cache.push(News(title))
-    
-    predicted_price = price_predictor.predict(aapl_stock, news_cache)
-    print("Predicted price: ${:.2f}".format(predicted_price))
-    news_cache.clear()
+    nsp = NewsSentimentPredict('AAPL')
+    print("Predicted : {}".format(nsp.to_dict()))
 
 if __name__ == "__main__":
     main()

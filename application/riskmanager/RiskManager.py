@@ -1,20 +1,4 @@
 import yfinance
-import json
-
-
-class Prediction:
-    def __init__(
-        self,
-        current_stock_price,
-        news_predicted_stock_price,
-        technical_predicted_stock_price,
-        technical_target_datetime,
-    ):
-        self.current_stock_price = current_stock_price
-        self.news_predicted_stock_price = news_predicted_stock_price
-        self.technical_predicted_stock_price = technical_predicted_stock_price
-        self.technical_target_datetime = technical_target_datetime
-
 
 TOTAL_INVESTED = 10000
 MAX_RISK_PER_TRADE = 5

@@ -1,0 +1,59 @@
+* {
+    color: #292930;
+}
+
+ul {
+    list-style: none;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+}
+
+li {
+    display: inline;
+    margin-right: 2vw;
+}
+
+header {
+    margin-top: 8vh;
+}
+
+a,
+button {
+    padding: 10px;
+    color: white;
+}
+
+a {
+    display: inline-block;
+    outline: none;
+    text-decoration: none;
+}
+
+a:link {
+    color: #292930;
+}
+
+a:visited {
+    color: #292930;
+}
+
+a:focus {
+    background-image: linear-gradient(to left, #F8B7B8 50%, #084D3F 50%);
+    background-size: 100% 3px;
+    /* Hauteur de la ligne de soulignement */
+    background-repeat: no-repeat;
+    /* Empêcher la répétition de l'image */
+    background-position: 0 100%;
+    /* Positionner l'image au bas de l'élément */
+}
+
+/*
+a:hover {
+    border-bottom: 1px solid;
+    background: #CDFEAA;
+}
+
+a:active {
+    background: #265301;
+}
+*/

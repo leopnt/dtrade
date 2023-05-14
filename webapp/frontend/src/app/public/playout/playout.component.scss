@@ -1,0 +1,38 @@
+#header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    z-index: 1;
+
+}
+
+.page {
+    position: relative;
+    background-size: cover;
+}
+
+#home {
+    background-image: url('../../../assets/backgrounds/home.svg');
+}
+
+#service {
+    background-image: url('../../../assets/backgrounds/service.svg');
+}
+
+#process {
+    background-image: url('../../../assets/backgrounds/process.svg');
+}
+
+#offers {
+    background-image: url('../../../assets/backgrounds/offers.svg');
+}
+
+#footer {
+    background-image: url('../../../assets/backgrounds/footer.svg');
+}
+
+#about {
+    background-color: #292930;
+}

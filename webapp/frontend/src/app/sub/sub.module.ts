@@ -6,6 +6,7 @@ import { SlayoutComponent } from './slayout/slayout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SubHeaderComponent } from './sub-header/sub-header.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SubHeaderComponent } from './sub-header/sub-header.component';
   ],
   imports: [
     CommonModule,
-    SubRoutingModule
+    SubRoutingModule,
+    FormsModule
   ]
 })
 export class SubModule { }

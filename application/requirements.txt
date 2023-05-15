@@ -1,0 +1,21 @@
+Flask == 2.3.2
+Flask-Cors == 3.0.10
+
+pandas == 2.0.0
+matplotlib == 3.7.1
+yfinance == 0.2.18
+
+# News Sentiment
+scikit-learn == 1.2.2
+jupyter == 1.0.0
+joblib == 1.2.0
+xgboost == 1.7.5
+textblob == 0.17.1
+praw == 7.7.0
+
+# Technical Analysis
+numpy == 1.21.6
+
+# Application risk management
+requests == 2.30.0
+jsonlib == 1.6.1

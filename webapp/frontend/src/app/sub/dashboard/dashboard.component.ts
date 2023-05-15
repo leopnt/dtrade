@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
 
   onSubmit() {
     this.tabLoading = true;
-    this.http.get<any[]>(`http://127.0.0.1:5001/api/v1/predictions/news`).subscribe(data => {
+    this.http.get<any[]>(`http://127.0.0.1:5001/api/v1/predictions/news/AAPL`).subscribe(data => {
       this.tabLoading = false;
       this.data = data;
     });

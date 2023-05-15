@@ -56,15 +56,15 @@
             <thead>
                 <tr>
                     <th>Asset</th>
-                    <th>News Prediction</th>
-                    <th>Pattern Recognition</th>
+                    <th>Close Price Previous</th>
+                    <th>Close Price Next Predicted</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let tuple of data">
-                    <td>{{ tuple.asset }}</td>
-                    <td>{{ tuple.news }}</td>
-                    <td>{{ tuple.patern }}</td>
+                    <td>{{ tuple.stock_symbol }}</td>
+                    <td>{{ tuple.close_price_previous }}</td>
+                    <td>{{ tuple.close_price_next_predicted}}</td>
                 </tr>
             </tbody>
         </table>

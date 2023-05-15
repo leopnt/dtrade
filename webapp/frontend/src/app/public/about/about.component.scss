@@ -1,0 +1,98 @@
+.body {
+    margin-top: 5vh;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+span {
+    color: #F8B7B8;
+}
+
+p {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 400;
+}
+
+#title {
+    display: flex;
+    flex-flow: row nowrap;
+    color: white;
+}
+
+#title div {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#title img {
+    max-width: 88px;
+    max-height: 88px;
+    margin-right: 3vw;
+}
+
+h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+
+#text {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 500;
+    text-align: center;
+    line-height: 2;
+    padding-left: 14vw;
+    padding-right: 14vw;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+.body img {
+    border-radius: 20px 20px 0 0;
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.cards {
+    border-radius: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: white;
+    padding: 1vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    align-items: center;
+}
+
+#portraits {
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 15vh;
+}
+
+#portraits .nom {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+#portraits .job {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}

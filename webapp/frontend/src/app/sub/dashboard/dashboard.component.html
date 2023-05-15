@@ -1,0 +1,73 @@
+<div id="welcome">
+</div>
+<div id="banner">
+    <p class="subtitle"><span>//</span>QUICK VIEW</p>
+    <div id="infos">
+        <h6 class="actif">BTCUSD
+            <div *ngIf="!btcusdChange" class="loader"></div>
+            <span *ngIf="btcusdChange"
+                [style.color]="parseFloat(btcusdChange) >= 0 ? '#38E55E' : '#FF1850'">{{formatChange(btcusdChange)}}</span>
+        </h6>
+        <h6 class="actif">AAPL
+            <div *ngIf="!aaplChange" class="loader"></div>
+            <span *ngIf="aaplChange" [style.color]="parseFloat(aaplChange) >= 0 ? '#38E55E' : '#FF1850'">{{
+                formatChange(aaplChange)
+                }}</span>
+        </h6>
+        <h6 class="actif">UBER
+            <div *ngIf="!uberChange" class="loader"></div>
+            <span *ngIf="uberChange" [style.color]="parseFloat(uberChange) >= 0 ? '#38E55E' : '#FF1850'">{{
+                formatChange(uberChange)
+                }}</span>
+        </h6>
+        <h6 class="actif">DSA
+            <div *ngIf="!dsaChange" class="loader"></div>
+            <span *ngIf="dsaChange" [style.color]="parseFloat(dsaChange) >= 0 ? '#38E55E' : '#FF1850'">{{
+                formatChange(dsaChange)
+                }}</span>
+        </h6>
+    </div>
+</div>
+<section id="first-section">
+    <div id="title">
+        <img src="../../../assets/utils/icons/guidelinesIcon.svg" alt="Guidelines icon">
+        <p class="subtitle" id="guidelines"><span>//</span>GUIDELINES</p>
+        <h2>Our latest analytics</h2>
+    </div>
+    <div id="text">
+        Our AI-powered trading assistance system is designed to provide accurate and personalized predictions for
+        different
+        financial assets. To enable you to quickly find the most relevant forecasts for your investment
+        strategies,
+        we have integrated an asset filtering function. You can easily select the assets you are interested in,
+        such
+        as currencies, stocks, or commodities, and instantly obtain corresponding forecasts for those assets.
+    </div>
+    <h2>Search for an asset</h2>
+    <form id="search" (ngSubmit)="onSubmit()">
+        <input type="text" [(ngModel)]="query" name="query" class="form-control" placeholder="E.g. AAPL, TESLA"
+            aria-label="Asset" aria-describedby="basic-addon1" required>
+        <button id="go" type=" submit" class="btn btn-dark">Go!</button>
+    </form>
+
+    <div class="res mat-elevation-z8">
+        <h2>Query Results</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>News Prediction</th>
+                    <th>Pattern Recognition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tuple of data">
+                    <td>{{ tuple.asset }}</td>
+                    <td>{{ tuple.news }}</td>
+                    <td>{{ tuple.patern }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>

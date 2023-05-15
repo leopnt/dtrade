@@ -1,0 +1,36 @@
+.content {
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+span {
+    color: #F8B7B8;
+}
+
+h1 {
+    margin: 0;
+    font-size: 70px;
+}
+
+p {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+#brand {
+    font-weight: 500;
+}
+
+#sentence {
+    font-weight: 400;
+}
+
+div>button {
+    margin-right: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}

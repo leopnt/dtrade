@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/_services/auth.service';
 
 
 @Component({
@@ -15,17 +17,21 @@ export class RegisterComponent implements OnInit {
     password_hash: null
   }
 
-  constructor(private http: HttpClient) { }
+  server_error = false;
+
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
-
   onSubmit() {
     this.http.post('http://127.0.0.1:5000/api/v1/users', this.form).subscribe(
-      data => console.log(data),
-      err => console.log(err)
+      (response) => {
+        this.authService.isLogged = true
+        this.router.navigate(['sub'])
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
     )
   }
-
-
 }

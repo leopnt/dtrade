@@ -68,7 +68,28 @@ def api_add_user():
     except sqlite3.Error as e:
         return str(e), 500
 
-    return jsonify(data)
+    return jsonify(data), 200
+
+@app.route('/api/v1/auth/login',  methods=['POST'])
+def api_auth():
+    r = request.json
+
+    if not r:
+        return "cannot login user: empty json body", 400
+
+    if not r["email"] or not r["password_hash"]:
+        return "cannot login user: incomplete json body: {}".format(r), 400
+
+    try:
+        user = query_db("SELECT * FROM users WHERE email=? AND password_hash=?",
+                    (r["email"], r["password_hash"]), one=True)
+    except sqlite3.Error as e:
+        return str(e), 500
+
+    if not user:
+        return "cannot login user: incorrect email or password", 401
+    
+    return "login successful", 200
 
 
 @app.route('/api/v1/users/<user_id>', methods=['GET'])

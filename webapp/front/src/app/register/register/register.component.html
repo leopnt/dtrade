@@ -1,0 +1,27 @@
+<div id="container" class="mat-elevation-z8">
+    <h3>Dtrade Solutions</h3>
+    <div class="form">
+        <div class="items-form">
+            <h2>Welcome to DTrade!</h2>
+            <p id="sentence-form">Please enter your details</p>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button id="submit" type="submit" class="btn btn-dark">Subscribe</button>
+            <p>Already have an account ?<a [routerLink]="['sub']">Login</a></p>
+        </div>
+    </div>
+    <div class="pic">
+        <p id="sentence-pic">Are you lost ? <a [routerLink]="['']">back to homepage</a></p>
+    </div>
+</div>

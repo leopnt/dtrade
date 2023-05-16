@@ -50,6 +50,9 @@ class RiskManager:
         print("potentiel gain :", potential_gain)
         print("FEE_PER_TRADE*2 :", FEE_PER_TRADE * 2)
         if potential_gain > FEE_PER_TRADE * 2:
+            # patch valuable_day not in DB
+            return True
+
             if self.technical_analysis.get("valuable_day"):
                 return True
             elif (
